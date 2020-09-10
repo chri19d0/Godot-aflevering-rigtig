@@ -1,0 +1,149 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://DirtAutoTile.tres" type="TileSet" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://WorldComplete.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sprites/flame.png" type="Texture" id=4]
+[ext_resource path="res://Fire.gd" type="Script" id=5]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Sprites/game_over_PNG22.png" type="Texture" id=8]
+[ext_resource path="res://scenes/Coin.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/point_GUI.tscn" type="PackedScene" id=10]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 30 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Game over"
+length = 2.0
+step = 0.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0313726, 0.0313726, 0.0313726, 0 ), Color( 0.0313726, 0.0313726, 0.0313726, 0.592157 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ColorRect/TextureRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.85098, 0.156863, 0.156863, 0 ), Color( 0.85098, 0.156863, 0.156863, 0 ), Color( 0.85098, 0.156863, 0.156863, 1 ) ]
+}
+
+[node name="World1" type="Node"]
+
+[node name="WorldComplete" parent="." instance=ExtResource( 3 )]
+position = Vector2( 540.158, 86.6842 )
+next_world = "res://World2.tscn"
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 85.0011, 283.767 )
+ACCELERATION = 10
+JUMP_HEIGHT = 700
+
+[node name="GUI" parent="Player" instance=ExtResource( 7 )]
+anchor_left = -0.000717735
+anchor_top = 0.00127585
+anchor_right = -0.000717735
+anchor_bottom = 0.00127585
+margin_left = -333.12
+margin_top = -195.809
+margin_right = 206.88
+margin_bottom = -69.8085
+
+[node name="Points_GUI" parent="Player" instance=ExtResource( 10 )]
+margin_left = -306.459
+margin_top = -130.651
+margin_right = -197.459
+margin_bottom = -60.6509
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+collision_use_kinematic = true
+format = 1
+tile_data = PoolIntArray( 9, 1, 5, 65536, 1, 5, 65545, 1, 65541, 131072, 1, 65541, 131078, 1, 1, 131079, 1, 65536, 131080, 1, 9, 131081, 1, 65543, 196608, 1, 65541, 196611, 1, 6, 196612, 1, 196609, 196613, 1, 196609, 196614, 1, 65544, 196615, 1, 131072, 196616, 1, 65538, 262144, 1, 65541, 262147, 1, 65541, 327680, 1, 65542, 327681, 1, 196609, 327682, 1, 196609, 327683, 1, 65543 )
+
+[node name="Fire" type="Area2D" parent="."]
+position = Vector2( 280.04, 165.873 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="flame" type="Sprite" parent="Fire"]
+position = Vector2( -2.19969, -0.299606 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fire"]
+position = Vector2( -3.99565, 4.30301 )
+shape = SubResource( 1 )
+
+[node name="Ball" parent="." instance=ExtResource( 6 )]
+position = Vector2( 398.762, 34.6178 )
+
+[node name="GameOverCanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameOverCanvasLayer"]
+"anims/Game over" = SubResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="GameOverCanvasLayer"]
+anchor_left = -0.000717735
+anchor_right = -0.000717735
+margin_left = -0.459305
+margin_top = -1.83727
+margin_right = 643.541
+margin_bottom = 384.163
+color = Color( 0.0313726, 0.0313726, 0.0313726, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="GameOverCanvasLayer/ColorRect"]
+modulate = Color( 0.85098, 0.156863, 0.156863, 0 )
+anchor_left = 0.500713
+anchor_right = 0.500713
+margin_left = -283.37
+margin_top = 0.45932
+margin_right = 284.288
+margin_bottom = 445.476
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Coin" parent="." instance=ExtResource( 9 )]
+position = Vector2( 333.007, 169.489 )
+
+[node name="Coin2" parent="." instance=ExtResource( 9 )]
+position = Vector2( 225.066, 170.867 )
+
+[node name="Coin3" parent="." instance=ExtResource( 9 )]
+position = Vector2( 33.9893, 32.1522 )
+[connection signal="health_changed" from="Player" to="Player/GUI" method="_on_Player_health_changed"]
+[connection signal="points_changed" from="Player" to="Player/Points_GUI" method="_on_Player_points_changed"]
